@@ -1,0 +1,31 @@
+Route::get('/sessions/{sessions}/activities/{activities}/remark_ap_files/{remark_ap_files}/aplication_ratings/{aplication_ratings}/searching_scores/{keyword}', 'super\ScoresController@search');
+
+$search = $request->keyword;
+        $session_js = $request->sessions;
+        $activity_js = $request->activities;
+        $remark_ap_file_js = $request->remark_ap_files;
+        $aplication_rating_js = $request->aplication_ratings;
+		
+		function getScores() {
+  var keyword = $('#keyword').val();
+  let session = "<?php echo $session->id; ?>";
+  let activity = "<?php echo $activity->id ?>";
+  let remark_ap_file = "<?php echo $remark_ap_file->id ?>";
+  let aplication_rating = "<?php echo $aplication_rating->id ?>"
+  console.log(aplication_rating);
+  $.ajax({
+    type: "get",
+    data: {
+      'keyword' : keyword,
+      'sessions' : session,
+      'activities' : activity,
+      'remark_ap_files' : remark_ap_file,
+      'aplication_ratings' : aplication_rating
+    },
+    url: '/sessions/{sessions}/activities/{activities}/searching_scores/{keyword}',
+    success: function (data) {
+      $('#container').html(data);
+      $('.loader_findFiles').hide();
+    }
+  })
+}
