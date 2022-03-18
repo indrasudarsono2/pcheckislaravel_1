@@ -20,7 +20,7 @@
                   <p style="text-align: justify; text-justify:inter-word;">
                     Dear, {{$medex->user->name}}<br><br>
 
-                    Regarding Excemption latter from DGCA number: AU.308/6/13/DRJU.DNP-2022, 
+                    Regarding Excemption letter from DGCA number: AU.308/6/13/DRJU.DNP-2022, 
                     your age and expiration date of MEDEX are meeting requirements.
                     Now your MEDEX expiration data becomes 4 years from the release date ({{ $medex->expired->format('d F Y') }}).
                     We kindly advise you to always keep your body fit during this Excemption.

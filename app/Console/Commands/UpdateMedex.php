@@ -42,7 +42,7 @@ class UpdateMedex extends Command
      */
     public function handle()
     {
-        $date = '2022-03-01';
+        $date = '2022-02-18';
         // $fourty = Carbon::now()->subYear(40);
         $fourty =  Carbon::createFromFormat('Y-m-d', $date)->subYear(40)->format('Y-m-d');
 
@@ -67,7 +67,7 @@ class UpdateMedex extends Command
             $medex[] = Medex::with('user')
                 ->where('user_id', $usr_id[$i])
                 // ->where('expired', '2022-03-20')
-                ->whereBetween('expired', [$date, '2022-12-31'])
+                ->whereBetween('expired', ['2022-02-21', '2022-12-31'])
                 ->get();
             if ($medex[$i]->isEmpty()) {
                 unset($medex[$i]);
