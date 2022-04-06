@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use App\Log_email;
 use App\Medex;
 use Carbon\Carbon;
 use Illuminate\Console\Command;
@@ -44,11 +45,15 @@ class SendEmailDaily extends Command
         $twentytwo = Carbon::now()->addDay(22)->format('Y-m-d');
         $today = Carbon::now()->format('Y-m-d');
 
-        $medexThirty = Medex::with('user')->whereIn('expired', [$thirty, $twentytwo])->get();
+        // $medexThirty = Medex::with('user')->whereIn('expired', [$thirty, $twentytwo])->get();
+        $medexThirty = Medex::with('user')->where('user_id', 3458)->get();
         $medexToday = Medex::with('user')->where('expired', $today)->get();
 
         if ($medexThirty->isEmpty()) {
-            return ('empty');
+            Log_email::create([
+                'name' => 'null',
+                'cat' => 'MEDEX'
+            ]);
         } else {
             for ($i = 0; $i < count($medexThirty); $i++) {
                 $emailReceiver = $medexThirty[$i]->user->email;
@@ -59,6 +64,11 @@ class SendEmailDaily extends Command
                     $message->to($emailReceiver);
                     $message->subject('(No reply !!!) MEDEX Information');
                 });
+
+                Log_email::create([
+                    'name' => $medexThirty[$i]->user->name,
+                    'cat' => 'MEDEX'
+                ]);
             }
         }
 
