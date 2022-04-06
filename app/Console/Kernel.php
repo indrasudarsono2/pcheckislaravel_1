@@ -34,8 +34,8 @@ class Kernel extends ConsoleKernel
         // $schedule->command('inspire')->hourly();
 
         $schedule->command('command:SendEmailDaily');
-        $schedule->command('command:SendIelpEmail');
-        $schedule->command('command:UpdateMedex');
+        // $schedule->command('command:SendIelpEmail');
+        // $schedule->command('command:UpdateMedex');
     }
 
     /**

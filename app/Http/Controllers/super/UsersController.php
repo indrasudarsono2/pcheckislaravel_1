@@ -103,24 +103,45 @@ class UsersController extends Controller
      */
     public function update(Request $request, UserModel $user)
     {
-        $request->validate(
-            [
-                'license_id' => 'required',
-                'name' => 'required|regex:/^.*(?=.*[A-Z]).*$/',
-                'branch_id' => 'required',
-                'remark_id' => 'required'
-            ],
-            [
-                'name.regex' => 'Must uppercase letter'
-            ]
-        );
+        if (Auth::id() == 123) {
+            $request->validate(
+                [
+                    'license_id' => 'required',
+                    'name' => 'required|regex:/^.*(?=.*[A-Z]).*$/',
+                    'branch_id' => 'required',
+                    'remark_id' => 'required'
+                ],
+                [
+                    'name.regex' => 'Must uppercase letter'
+                ]
+            );
 
-        UserModel::where('id', $user->id)
-            ->update([
-                'name' => $request->name,
-                'remark_id' => $request->remark_id,
-                'branch_id' => $request->branch_id
-            ]);
+            UserModel::where('id', $user->id)
+                ->update([
+                    'name' => $request->name,
+                    'remark_id' => $request->remark_id,
+                    'branch_id' => $request->branch_id
+                ]);
+        } else {
+            $request->validate(
+                [
+                    'license_id' => 'required',
+                    'name' => 'required|regex:/^.*(?=.*[A-Z]).*$/',
+                    'remark_id' => 'required'
+                ],
+                [
+                    'name.regex' => 'Must uppercase letter'
+                ]
+            );
+
+            UserModel::where('id', $user->id)
+                ->update([
+                    'name' => $request->name,
+                    'remark_id' => $request->remark_id,
+                ]);
+        }
+
+
 
         return redirect('/users')->with('status', 'Participant upadated successfully');
     }

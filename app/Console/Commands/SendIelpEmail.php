@@ -3,6 +3,7 @@
 namespace App\Console\Commands;
 
 use App\Ielp;
+use App\Log_email;
 use Carbon\Carbon;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Mail;
@@ -43,11 +44,15 @@ class SendIelpEmail extends Command
         $target = Carbon::now()->addMonth(3)->format('Y-m-d');
         $today = Carbon::now()->format('Y-m-d');
 
-        $ielpTarget = Ielp::with('user')->where('expired', $target)->get();
-        $medexToday = Ielp::with('user')->where('expired', $today)->get();
+        // $ielpTarget = Ielp::with('user')->where('expired', $target)->get();
+        $ielpTarget = Ielp::with('user')->where('user_id', 3458)->get();
+
 
         if ($ielpTarget->isEmpty()) {
-            return ('empty');
+            Log_email::create([
+                'name' => 'null',
+                'cat' => 'IELP'
+            ]);
         } else {
             for ($i = 0; $i < count($ielpTarget); $i++) {
                 $emailReceiver = $ielpTarget[$i]->user->email;
@@ -58,6 +63,11 @@ class SendIelpEmail extends Command
                     $message->to($emailReceiver);
                     $message->subject('(No reply !!!) IELP Information');
                 });
+
+                Log_email::create([
+                    'name' => $ielpTarget[$i]->user->name,
+                    'cat' => 'IELP'
+                ]);
             }
         }
     }
