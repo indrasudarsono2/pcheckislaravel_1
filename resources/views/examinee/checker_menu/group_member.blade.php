@@ -56,28 +56,30 @@ Member
             @endfor
           >{{ $group_member[$h]->user->name }}</td>
           <td width="30px" align="center" scope="col">
-            @for($d=0; $d<count($af); $d++)
-              @if($af[$d]->user_id == $group_member[$h]->user_id)
-                @for($e=0; $e<count($frm_userid); $e++)
-                  @if ($group_member[$h]->user_id == $frm_userid[$e])
-                    <a href="{{ route('group_members.practical_exams.index_rate_member', [$sessionss, $group_member[$h]]) }}" class="btn btn-info fas fa-desktop "> PC Praktek</a>
-                  @break
-                  {{-- @else
-                    BELOM MENGERJAKAN --}}
-                  @endif
-                @endfor
-              @endif
-            @endfor
-            
-            @if ($gm_id!=0)
-              @for($i=0; $i<count($gm_id); $i++)
-                @if($group_member[$h]->id == $gm_id[$i])
-                <a href="{{ route('sessionss.group_members.form_ratings.create', [$sessionss, $group_member[$h]]) }}" class="btn btn-dark fas fa-book "> Essay</a>
-                @break
+            @if ($af!=null)
+              @for($d=0; $d<count($af); $d++)
+                @if($af[$d]->user_id == $group_member[$h]->user_id)
+                  @for($e=0; $e<count($frm_userid); $e++)
+                    @if ($group_member[$h]->user_id == $frm_userid[$e])
+                      <a href="{{ route('group_members.practical_exams.index_rate_member', [$sessionss, $group_member[$h]]) }}" class="btn btn-info fas fa-desktop "> PC Praktek</a>
+                    @break
+                    {{-- @else
+                      BELOM MENGERJAKAN --}}
+                    @endif
+                  @endfor
                 @endif
-              @endfor 
+              @endfor
+
+              @if ($gm_id!=0)
+                @for($i=0; $i<count($gm_id); $i++)
+                  @if($group_member[$h]->id == $gm_id[$i])
+                  <a href="{{ route('sessionss.group_members.form_ratings.create', [$sessionss, $group_member[$h]]) }}" class="btn btn-dark fas fa-book "> Essay</a>
+                  @break
+                  @endif
+                @endfor 
+              @endif
+              <a href="{{ route('sessionss.group_members.show', [$sessionss, $group_member[$h]]) }}" class="btn btn-primary fas fa-certificate"> Score</a>
             @endif
-            <a href="{{ route('sessionss.group_members.show', [$sessionss, $group_member[$h]]) }}" class="btn btn-primary fas fa-certificate"> Score</a>
           </td>
         </tr>
         @endfor

@@ -50,15 +50,16 @@ class Practical_examsController extends Controller
             ->where('remark_ap_file_id', 1)
             ->orderBy('id', 'desc')->first();
 
-        $form_rating = Form_rating::where('aplication_file_id', $aplication_file->id)->get();
-        foreach ($form_rating as $form_rating) {
-            $fr_id[] = $form_rating->id;
-        }
-        $pe_all = Practical_exam::where('checker_gain_id', $checker_gain->id)->get();
-
         if ($aplication_file == null) {
             return redirect()->route('sessionss.checker_gains', $sessionss)->with('alert', 'Application file has not been completed yet');
         } else {
+            $form_rating = Form_rating::where('aplication_file_id', $aplication_file->id)->get();
+            foreach ($form_rating as $form_rating) {
+                $fr_id[] = $form_rating->id;
+            }
+
+            $pe_all = Practical_exam::where('checker_gain_id', $checker_gain->id)->get();
+
             $practical_exam = $pe_all->whereIn('form_rating_id', $fr_id)->all();
             $count = count($practical_exam);
             return view('examinee/checker_menu/checker_gainRate', compact('sessionss', 'checker_gain', 'practical_exam', 'count'));

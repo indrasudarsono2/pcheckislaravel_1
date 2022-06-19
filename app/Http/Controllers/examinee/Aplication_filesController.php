@@ -865,11 +865,17 @@ class Aplication_filesController extends Controller
                 $gain_rating_id[] = $checker_gain->gain_rating_id;
             }
             $gain_rating = Gain_rating::whereIn('id', $gain_rating_id)->where('session_id', $sessionss->id)->get();
+            if ($gain_rating->isEmpty()) {
+                return redirect()->route('sessionss.index')->with('alert', 'No data available');
+            }
             foreach ($gain_rating as $gain_rating) {
                 $usr_id[] = $gain_rating->user_id;
             }
             $aplication_file = Aplication_file::with('ielp', 'medex', 'user', 'form_rating')->whereIn('user_id', $usr_id)
                 ->where('session_id', $sessionss->id)->where('remark_ap_file_id', $remark_ap_file->id)->orderBy('id', 'desc')->get();
+            if ($aplication_file->isEmpty()) {
+                return redirect()->route('sessionss.index')->with('alert', 'No data available');
+            }
         } else {
             $group = Group::where('user_id', Auth::id())->where('session_id', $sessionss->id)->first();
             if ($group == null) {

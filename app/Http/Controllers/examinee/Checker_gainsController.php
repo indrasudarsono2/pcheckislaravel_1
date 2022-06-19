@@ -25,7 +25,9 @@ class Checker_gainsController extends Controller
     public function index(Session $sessionss)
     {
         $gain_rating = Gain_rating::where('session_id', $sessionss->id)->get();
-
+        if ($gain_rating->isEmpty()) {
+            return redirect('/examinee')->with('alert', 'No data available');
+        }
         foreach ($gain_rating as $gr) {
             $gain_id[] = $gr->id;
         }

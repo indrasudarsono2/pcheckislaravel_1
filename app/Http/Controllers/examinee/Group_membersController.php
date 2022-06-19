@@ -202,9 +202,9 @@ class Group_membersController extends Controller
                     }
 
                     for ($l = 0; $l < count($af); $l++) {
-                        $form_rat[] = Form_rating::where('aplication_file_id', $af[$l]->id)
+                        $form_rat[] = Form_rating::where('aplication_file_id', $af[$l]->id)->whereIn('rating_id', $pc_rating_id)
                             ->get();
-                        $form_rat_success[] = Form_rating::where('aplication_file_id', $af[$l]->id)
+                        $form_rat_success[] = Form_rating::where('aplication_file_id', $af[$l]->id)->whereIn('rating_id', $pc_rating_id)
                             ->where('status_id', 3)->get();
 
                         if (count($form_rat[$l]) == count($form_rat_success[$l])) {
@@ -218,6 +218,7 @@ class Group_membersController extends Controller
                     }
 
                     $score = Score::where('remark_score_id', 1)->whereIn('form_rating_id', $fr_id)->get();
+
                     if ($score->isEmpty()) {
                         $group_member = Group_member::with('user')->where('group_id', $group->id)->get();
                         foreach ($group_member as $gm) {
@@ -235,6 +236,7 @@ class Group_membersController extends Controller
                         }
 
                         $gm_id = 0;
+
                         return view('examinee/checker_menu/group_member', compact('sessionss', 'group_member', 'gm_id', 'pe_usr', 'frm_userid', 'af'));
                     } else {
                         foreach ($score as $score) {

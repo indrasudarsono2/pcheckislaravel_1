@@ -68,7 +68,8 @@ Rating {{ $form_rating->rating->rating }}
         @endforeach
           <tr>
             <td colspan="4"></td>
-            <td width="5px" align="center" scope="col" style="padding-left: 1px; padding-right: 1px;"><button type="submit" class="btn btn-success fas fa-edit" id="essay"> Submit</button></td>
+            <td width="5px" align="center" scope="col" style="padding-left: 1px; padding-right: 1px;">
+              <button type="submit" class="btn btn-success fas fa-edit" id="essay" onclick="return confirm('Are you sure want to submit it?')"> Submit</button></td>
           </tr>
         </form>
       </tbody>
